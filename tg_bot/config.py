@@ -1,37 +1,44 @@
-import os
+if not __name__.endswith("sample_config"):
+    import sys
+    print("The README is there to be read. Extend this sample config to a config file, don't just rename and change "
+          "values here. Doing that WILL backfire on you.\nBot quitting.", file=sys.stderr)
+    quit(1)
 
+
+# Create a new config.py file in same dir and import, then extend this class.
 class Config(object):
     LOGGER = True
-    
+
     # REQUIRED
-    API_KEY = os.environ.get('TOKEN', None)
-    OWNER_ID = int(os.environ.get('OWNER_ID', None))  # If you dont know, run the bot and do /id in your private chat with it
-    OWNER_USERNAME = os.environ.get('OWNER_USERNAME', None)
+    API_KEY = "YOUR KEY HERE"
+    OWNER_ID = "YOUR ID HERE"  # If you dont know, run the bot and do /id in your private chat with it
+    OWNER_USERNAME = "YOUR USERNAME HERE"
 
     # RECOMMENDED
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', None)
-    MESSAGE_DUMP = os.environ.get('MESSAGE_DUMP', None)  # needed to make sure 'save from' messages persist
+    SQLALCHEMY_DATABASE_URI = 'sqldbtype://username:pw@hostname:port/db_name'  # needed for any database modules
+    MESSAGE_DUMP = None  # needed to make sure 'save from' messages persist
     LOAD = []
-    NO_LOAD = ['translation']
-    WEBHOOK = bool(os.environ.get('WEBHOOK', False))
-    URL = os.environ.get('URL', "")  # Does not contain token
+    NO_LOAD = ['translation', 'rss']
+    WEBHOOK = False
+    URL = None
 
     # OPTIONAL
     SUDO_USERS = []  # List of id's (not usernames) for users which have sudo access to the bot.
     SUPPORT_USERS = []  # List of id's (not usernames) for users which are allowed to gban, but can also be banned.
     WHITELIST_USERS = []  # List of id's (not usernames) for users which WONT be banned/kicked by the bot.
-    DONATION_LINK = None
+    DONATION_LINK = None  # EG, paypal
     CERT_PATH = None
-    PORT = int(os.environ.get('PORT', 5000))
-    DEL_CMDS = bool(os.environ.get('DEL_CMDS', False))
-    STRICT_GBAN = bool(os.environ.get('STRICT_GBAN', False))
-    WORKERS = int(os.environ.get('WORKERS', 8))
+    PORT = 5000
+    DEL_CMDS = False  # Whether or not you should delete "blue text must click" commands
+    STRICT_GBAN = False
+    WORKERS = 8  # Number of subthreads to use. This is the recommended amount - see for yourself what works best!
     BAN_STICKER = 'CAADAgADOwADPPEcAXkko5EB3YGYAg'  # banhammer marie sticker
-    ALLOW_EXCL = bool(os.environ.get('ALLOW_EXCL', False))
-    CUSTOM_CMD = bool(os.environ.get('CUSTOM_CMD', True))
-    API_WEATHER = None
-    WALL_API = None
-    STRICT_GMUTE = bool(os.environ.get('STRICT_GMUTE', False))
+    ALLOW_EXCL = False  # Allow ! commands as well as /
+    BMERNU_SCUT_SRELFTI = 0
+
+class Production(Config):
+    LOGGER = False
+
 
 class Development(Config):
     LOGGER = True
