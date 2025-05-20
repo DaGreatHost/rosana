@@ -4,7 +4,6 @@ def fix_postgres_url(url):
     """Fix postgres URL for SQLAlchemy"""
     if not url:
         return None
-    # Replace 'postgres://' with 'postgresql://' for SQLAlchemy
     if url.startswith('postgres://'):
         url = url.replace('postgres://', 'postgresql://', 1)
     return url
@@ -12,12 +11,14 @@ def fix_postgres_url(url):
 from tg_bot.sample_config import Config
 
 class Development(Config):
-    OWNER_ID = int(os.environ.get('OWNER_ID'))  # Your Telegram ID
-    OWNER_USERNAME = os.environ.get('OWNER_USERNAME')  # Your Telegram username
-    API_KEY = os.environ.get('TOKEN')  # Bot token from @BotFather
+    OWNER_ID = int(os.environ.get('OWNER_ID'))
+    OWNER_USERNAME = os.environ.get('OWNER_USERNAME')
+    API_KEY = os.environ.get('TOKEN')
     
-    # Fix the DATABASE_URL format for SQLAlchemy
+    # Database URL must not be None
     SQLALCHEMY_DATABASE_URI = fix_postgres_url(os.environ.get('DATABASE_URL'))
+    if not SQLALCHEMY_DATABASE_URI:
+        raise ValueError("DATABASE_URL environment variable is not set!")
     
     MESSAGE_DUMP = os.environ.get('MESSAGE_DUMP', None)
     LOAD = []
