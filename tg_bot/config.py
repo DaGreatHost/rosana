@@ -1,3 +1,4 @@
+import os
 from tg_bot.sample_config import Config
 
 class Development(Config):
@@ -6,10 +7,10 @@ class Development(Config):
     API_KEY = os.environ.get('TOKEN')  # Bot token from @BotFather
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # Database URL from Railway
     MESSAGE_DUMP = os.environ.get('MESSAGE_DUMP', None)  # Channel/Group ID for logging
-    LOAD = []  # Load these modules
-    NO_LOAD = ['translation']  # Don't load these modules
+    LOAD = []
+    NO_LOAD = ['translation']
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
-    URL = os.environ.get('URL', "")  # Your Railway app URL
+    URL = os.environ.get('URL', "")
 
     # Optional
     SUDO_USERS = []  # List of ID's - (not usernames)
